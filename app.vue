@@ -196,7 +196,7 @@ const handleOtherStaticSiteBlur = () => {
   }
 };
 
-const submitForm = () => {
+const submitForm = async() => {
   if (
     !formData.value.websiteUrl ||
     !formData.value.projectType ||
@@ -209,7 +209,8 @@ const submitForm = () => {
     showSubmitMessage.value = false;
 
     // Form data is valid, handle submission (e.g., send to server)
-    console.log("Form submitted:", formData.value);
+    const { data } = await useFetch('/api/form')
+    console.log("Form submitted:", data);
   }
 };
 </script>
