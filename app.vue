@@ -6,7 +6,7 @@
     </p>
     <form @submit.prevent="submitForm" ref="form" class="space-y-8">
 
-      <div v-if="showWebsiteUrl">
+      <div>
         <label
           for="website-url"
           class="block text-sm font-medium leading-6 text-gray-900"
@@ -15,8 +15,8 @@
         <div
           class="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
         >
-          <input
-            type="text"
+          <input @input="onChange"
+            type="url"
             name="website-url"
             id="website-url"
             v-model.trim="formData.websiteUrl"
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div v-if="showProjectType && formData.websiteUrl">
+      <div v-if="showProjectType && formData.websiteUrl" class="animation">
         <label
           for="project-type"
           class="block text-sm font-medium leading-6 text-gray-900"
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <div v-if="showStaticSiteType && formData.projectType">
+      <div v-if="showStaticSiteType && formData.projectType" class="animation">
         <label
           for="static-site-type"
           class="block text-sm font-medium leading-6 text-gray-900"
@@ -91,7 +91,7 @@
         <div
           class="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
         >
-          <input
+          <input @input="onChange"
             type="text"
             id="other-static-site-type"
             v-model.trim="otherStaticSiteType"
@@ -103,7 +103,7 @@
         </div>
       </div>
 
-      <div v-if="showEmail && formData.staticSiteType">
+      <div v-if="showEmail && formData.staticSiteType" class="animation">
         <label
           for="email"
           class="block text-sm font-medium leading-6 text-gray-900"
@@ -112,7 +112,7 @@
         <div
           class="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
         >
-          <input
+          <input @input="onChange"
             type="email"
             name="email"
             id="email"
@@ -157,19 +157,28 @@ const formData = ref({
   email: "",
 });
 
-const showNextQuestion = (nextQuestion) => {
-  if (nextQuestion === "websiteUrl" && username.value) {
-    showWebsiteUrl.value = true;
+const onChange = ()=> {
+  if (!formData.value.websiteUrl) {
+    showProjectType.value = false
+    showEmail.value = false
+    showStaticSiteType.value = false
+    showOtherStaticSiteType.value = false
   }
+}
+
+const showNextQuestion = (nextQuestion) => {
   if (nextQuestion === "projectType" && formData.value.websiteUrl) {
     showProjectType.value = true;
   }
+
   if (nextQuestion === "staticSiteType" && formData.value.projectType) {
     showStaticSiteType.value = true;
   }
+
   if (nextQuestion === "email" && formData.value.staticSiteType) {
     showEmail.value = true;
   }
+
 };
 
 const handleStaticSiteTypeChange = () => {
