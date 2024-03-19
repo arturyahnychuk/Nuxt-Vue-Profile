@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.animation {
+    animation: Animation 0.3s ease forwards;
+}
+
+@keyframes Animation {
+    from {
+        height: 0px;
+    }
+    to{
+        height: 68px;
+    }
+}
